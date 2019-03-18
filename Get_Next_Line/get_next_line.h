@@ -18,6 +18,14 @@
 # include "./libft/libft.h" // my libft
 # include <unistd.h> // read();
 
-int		get_next_line(const int fd, char  **line);
+int				get_next_line(const int fd, char  **line);
+
+typedef struct	s_gnl  //Struct for a Linked List of File Descriptors & their current buffer.
+{
+	int		fd;
+	char	*buf;
+
+	struct s_gnl *next;
+}				t_gnl;
 
 #endif 
