@@ -12,7 +12,11 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFF_SIZE 32
+
+# define BUFF_SIZE 32 // needs to be able to be changed for the correction
+
+# include "./libft/libft.h" // my libft
+# include <unistd.h> // read();
 
 int		get_next_line(const int fd, char  **line);
 

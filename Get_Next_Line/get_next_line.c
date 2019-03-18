@@ -10,7 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
+
 int		get_next_line(const int fd, char  **line)
 {
-	
+	if (fd < 0 || !line)
+		return (-1); //Error 
+	return (1); // Line was read
+	// return (0); // Reading Completed
 }
