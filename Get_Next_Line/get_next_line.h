@@ -24,7 +24,6 @@ typedef struct	s_gnl  //Struct for a Linked List of File Descriptors & their cur
 {
 	int		fd;
 	char	*buf;
-
 	struct s_gnl *next;
 }				t_gnl;
 
