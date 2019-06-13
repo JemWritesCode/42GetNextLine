@@ -22,5 +22,5 @@ fclean: clean
 
 re: fclean all
 
-# If you create a file named one of the rule names it still runs the make rule.
+# With PHONY if you create a file named one of the rule names it still runs the make rule.
 .PHONY: clean fclean all re

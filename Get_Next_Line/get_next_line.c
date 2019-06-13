@@ -23,8 +23,7 @@ t_gnl		*gnl_new(int fd)
 	return (new);
 }
 
-
-t_gnl	get_cur_file(int fd, t_gnl **files)
+t_gnl	*get_cur_file(int fd, t_gnl **files)
 {
 	t_gnl	*temp;
 
@@ -41,11 +40,10 @@ t_gnl	get_cur_file(int fd, t_gnl **files)
 	return (temp);
 }
 
-
 int		get_next_line(const int fd, char  **line)
 {
 	char	buf[BUFF_SIZE + 1]; // +1 for null terminator
-	static t_gnl	*files;		// The linked list of all the files the application is curly reading from. Has to stay at the head of list so you can always go through the whole list when you come back to this function.
+	static t_gnl	*files;		// The linked list of all the files the application is currently reading from. Has to stay at the head of list so you can always go through the whole list when you come back to this function.
 	t_gnl			*cur;	// a pointer to the current file we're reading from.
 	int				ret;
 
@@ -61,9 +59,9 @@ int		get_next_line(const int fd, char  **line)
 	}
 	if (ret < BUFF_SIZE && !ft_strlen(cur->buf)) //no bytes read or the length of that file's buffer is 0.
 		return (0);
-	ft_strncpy(line, cur->buf, cur->buf - ft_strchr(cur->buf, '\n')) //# of characters before /n //copy the current line into **line that was passed in so the main can print the current line for current fd.
+	ft_strncpy(line, cur->buf, cur->buf - ft_strchr(cur->buf, '\n')); //# of characters before /n //copy the current line into **line that was passed in so the main can print the current line for current fd.
 
-	WORKING HERE// you'll potentially have some characters after the /n in the buf and will need to set them to null
+	//WORKING HERE// you'll potentially have some characters after the /n in the buf and will need to set them to null
 	
 
 	return (1); // Line was read
