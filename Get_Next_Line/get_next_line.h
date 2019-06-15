@@ -18,9 +18,7 @@
 # include "./libft/libft.h" // my libft
 # include <unistd.h> // read();
 
-int				get_next_line(const int fd, char  **line);
-t_gnl			*get_cur_file(int fd, t_gnl **files);
-t_gnl			*gnl_new(int fd);
+# define MALLOC_CHECK(x) if (!x) return (-1);
 
 typedef struct	s_gnl  //Struct for a Linked List of File Descriptors & a pointer to where we are in their buffer.
 {
@@ -28,5 +26,9 @@ typedef struct	s_gnl  //Struct for a Linked List of File Descriptors & a pointer
 	char	*buf;
 	struct s_gnl *next;
 }				t_gnl;
+
+int				get_next_line(const int fd, char  **line);
+t_gnl			*get_cur_file(int fd, t_gnl **files);
+t_gnl			*gnl_new(int fd);
 
 #endif 

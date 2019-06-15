@@ -9,7 +9,7 @@ int		main(void)
 	int fd;
 	char *line;
 
-		fd = open("poem.txt", O_RDONLY);
+		fd = open("./poem.txt", O_RDONLY);
 		while (get_next_line(fd, &line) == 1)
 			ft_putendl(line);
 		close (fd); // delete the file descriptor we're no longer using it.
