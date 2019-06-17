@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h> // printf() for tests. REMOVE
 
 t_gnl		*gnl_new(int fd)
 {
@@ -20,6 +21,7 @@ t_gnl		*gnl_new(int fd)
 		return (NULL);
 	new->buf = "\0";
 	new->fd = fd;
+	new->next = NULL;
 	return (new);
 }
 
@@ -66,15 +68,23 @@ int		get_next_line(const int fd, char  **line)
 	while ((ret = read(fd, buf, BUFF_SIZE))) //reading through the file buff_size bytes at a time.
 	{
 		buf[ret] = '\0'; // null terminator for the end of buff since read returns number of bytes actually read.
-		MALLOC_CHECK((cur->buf = ft_strjoin(cur->buf, buf))); // add to the gnl struct's buff...
+		MALLOC_CHECK((cur->buf = ft_strjoin(cur->buf, buf))); // add to the gnl struct's buff...cur->buf is at begining of what's been read. 
+		//printf("TESTING Current cur->buf: %s\n", cur->buf);
 		if (ft_strchr(buf, '\n')) // until you hit a newline somewhere in the buf.
 			break ;
 	}
 	if (ret < BUFF_SIZE && !ft_strlen(cur->buf)) //no bytes read or the length of that file's buffer is 0.
 		return (0);
-	newlinePos = ft_strchr(cur->buf, '\n') - cur->buf; 
-	ft_strncpy(*line, cur->buf, newlinePos); //# of characters before /n //copy the current line into **line that was passed in so the main can print the current line for current fd.
+	newlinePos = ft_strchr(cur->buf, '\n') - cur->buf; //use pointer math to calculate newline position.
+	//printf("newlinePos: %d\n", newlinePos); //testing REMOVE TODO
+	//mine ft_strncpy(*line, cur->buf, newlinePos); //# of characters before /n //copy the current line into **line that was passed in so the main can print the current line for current fd.
 	
+	*line = ft_strsub(cur->buf, 0, newlinePos);
+	ft_strncpy(*line, cur->buf, newlinePos);
+	//cur->buf += ft_strdup(&*(s[fd] + newlinePos + 1));
+	//ft_memdel((void **)&s[fd]);
+	//s[fd] = ft_strdup(temp);
+	//ft_memdel((void **)&temp);
 
 	//WORKING HERE// you'll potentially have some characters after the /n in the buf and will need to set them to null
 	//below is testing, seeing how it fits together from other one.

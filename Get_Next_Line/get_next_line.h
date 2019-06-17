@@ -23,7 +23,7 @@
 typedef struct	s_gnl  //Struct for a Linked List of File Descriptors & a pointer to where we are in their buffer.
 {
 	int		fd;
-	char	*buf;
+	char	*buf; // The buf is what has already been read for the current fd.
 	struct s_gnl *next;
 }				t_gnl;
 
