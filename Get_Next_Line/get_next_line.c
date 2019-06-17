@@ -62,37 +62,21 @@ int		get_next_line(const int fd, char  **line)
 	int				newlinePos;
 
 	newlinePos = 0;
-	if (fd < 0 || !line || BUFF_SIZE < 0) //fd is an error code || line is null || Bad Buff Size 
+	if (fd < 0 || !line || BUFF_SIZE < 0 || read(fd, buf, 0) < 0) //fd is an error code || line is null || Bad Buff Size 
 		return (-1); //Error
 	cur = get_cur_file(fd, &files);
-	MALLOC_CHECK((*line = ft_strnew(1)));
 	while ((ret = read(fd, buf, BUFF_SIZE))) //reading through the file buff_size bytes at a time. While any bytes are being read.
 	{
 		buf[ret] = '\0'; // null terminator for the end of buff since read returns number of bytes actually read as ret.
 		MALLOC_CHECK((cur->buf = ft_strjoin(cur->buf, buf))); // add to the gnl struct's buff...cur->buf is at begining of what's all thats been read. 
-		//printf("TESTING Current cur->buf: %s\n", cur->buf);
 		if (ft_strchr(buf, '\n')) // until you hit a newline somewhere in the buf.
 			break ;
 	}
 	if (ret < BUFF_SIZE && !ft_strlen(cur->buf)) //no bytes read or the length of that file's buffer is 0.
-		return (0); // Reading Completed
+		return (0); // File Reading Completed
 	while (cur->buf[newlinePos] != '\0' && cur->buf[newlinePos] != '\n')
 		newlinePos++;
-	//printf("newlinePos: %d\n", newlinePos); //testing REMOVE TODO
-	//mine ft_strncpy(*line, cur->buf, newlinePos); //# of characters before /n //copy the current line into **line that was passed in so the main can print the current line for current fd.
-	
-	*line = ft_strsub(cur->buf, 0, newlinePos);
-	//printf("*line is currently: %s\n", *line);
-	//ft_strncpy(*line, cur->buf, newlinePos);
-	//printf("*line 2NDAFTERCPY is currently: %s\n", *line);
-	//cur->buf += ft_strdup(&*(s[fd] + newlinePos + 1));
-	//ft_memdel((void **)&s[fd]);
-	//s[fd] = ft_strdup(temp);
-	//ft_memdel((void **)&temp);
-
-	//WORKING HERE// you'll potentially have some characters after the /n in the buf and will need to set them to null
-	//below is testing, seeing how it fits together from other one.
-		(newlinePos < (int)ft_strlen(cur->buf)) ? cur->buf += (newlinePos + 1): ft_bzero(cur->buf, ft_strlen(cur->buf));
-
+	*line = ft_strsub(cur->buf, 0, newlinePos); //make a a new stringsub from buf[0] to buf[newLinePos]
+	(newlinePos < (int)ft_strlen(cur->buf)) ? cur->buf += (newlinePos + 1): ft_bzero(cur->buf, ft_strlen(cur->buf)); // you'll potentially have some characters after the /n in the buf and will need to set them to null. If not then move the current file's buf position to right after the newline.
 	return (1); // Line was read
 }
