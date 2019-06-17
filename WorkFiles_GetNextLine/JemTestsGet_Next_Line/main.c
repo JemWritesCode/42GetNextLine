@@ -4,15 +4,19 @@
 #include <fcntl.h> // open(); // File Control Functions
 
 // Will print all the lines in a file one at a time.
-int		main(void)
+int		main(int argc, char **argv)
 {
 	int fd;
 	char *line;
 
-		fd = open("./poem.txt", O_RDONLY);
+	if (argc == 2){
+		fd = open(argv[1], O_RDONLY);
 		while (get_next_line(fd, &line) == 1)
 			ft_putendl(line);
 		close (fd); // delete the file descriptor we're no longer using it.
-	
+	} else{
+		ft_putstr("usage: ./GetNextLine fileToRead.txt\n");
+	}
+
 	return (0);
 }

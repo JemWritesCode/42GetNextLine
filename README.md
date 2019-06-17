@@ -29,7 +29,7 @@ cd ./42GetNextLine/WorkFiles_GetNextLine/JemTestsGet_Next_Line/
 make
 ```
 
-4.) Run the program
+4.) Run the program. (poem.txt is included for an example)
 ```
-./GetNextLine
+./GetNextLine fileToRead.txt
 ```

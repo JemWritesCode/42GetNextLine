@@ -56,31 +56,35 @@ t_gnl	*get_cur_file(int fd, t_gnl **files)
 int		get_next_line(const int fd, char  **line)
 {
 	char	buf[BUFF_SIZE + 1]; // +1 for null terminator
-	static t_gnl	*files;		// The linked list of all the files the application is currently reading from. Has to stay at the head of list so you can always go through the whole list when you come back to this function.
-	t_gnl			*cur;	// a pointer to the current file we're reading from.b
+	static t_gnl	*files; // The linked list of all the files the application is currently reading from. Has to stay at the head of list so you can always go through the whole list when you come back to this function.
+	t_gnl			*cur;	// a pointer to the current file we're reading from.
 	int		 		ret;
 	int				newlinePos;
 
+	newlinePos = 0;
 	if (fd < 0 || !line || BUFF_SIZE < 0) //fd is an error code || line is null || Bad Buff Size 
 		return (-1); //Error
 	cur = get_cur_file(fd, &files);
 	MALLOC_CHECK((*line = ft_strnew(1)));
-	while ((ret = read(fd, buf, BUFF_SIZE))) //reading through the file buff_size bytes at a time.
+	while ((ret = read(fd, buf, BUFF_SIZE))) //reading through the file buff_size bytes at a time. While any bytes are being read.
 	{
-		buf[ret] = '\0'; // null terminator for the end of buff since read returns number of bytes actually read.
-		MALLOC_CHECK((cur->buf = ft_strjoin(cur->buf, buf))); // add to the gnl struct's buff...cur->buf is at begining of what's been read. 
+		buf[ret] = '\0'; // null terminator for the end of buff since read returns number of bytes actually read as ret.
+		MALLOC_CHECK((cur->buf = ft_strjoin(cur->buf, buf))); // add to the gnl struct's buff...cur->buf is at begining of what's all thats been read. 
 		//printf("TESTING Current cur->buf: %s\n", cur->buf);
 		if (ft_strchr(buf, '\n')) // until you hit a newline somewhere in the buf.
 			break ;
 	}
 	if (ret < BUFF_SIZE && !ft_strlen(cur->buf)) //no bytes read or the length of that file's buffer is 0.
 		return (0); // Reading Completed
-	newlinePos = ft_strchr(cur->buf, '\n') - cur->buf; //use pointer math to calculate newline position.
+	while (cur->buf[newlinePos] != '\0' && cur->buf[newlinePos] != '\n')
+		newlinePos++;
 	//printf("newlinePos: %d\n", newlinePos); //testing REMOVE TODO
 	//mine ft_strncpy(*line, cur->buf, newlinePos); //# of characters before /n //copy the current line into **line that was passed in so the main can print the current line for current fd.
 	
 	*line = ft_strsub(cur->buf, 0, newlinePos);
-	ft_strncpy(*line, cur->buf, newlinePos);
+	//printf("*line is currently: %s\n", *line);
+	//ft_strncpy(*line, cur->buf, newlinePos);
+	//printf("*line 2NDAFTERCPY is currently: %s\n", *line);
 	//cur->buf += ft_strdup(&*(s[fd] + newlinePos + 1));
 	//ft_memdel((void **)&s[fd]);
 	//s[fd] = ft_strdup(temp);
