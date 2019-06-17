@@ -74,7 +74,7 @@ int		get_next_line(const int fd, char  **line)
 			break ;
 	}
 	if (ret < BUFF_SIZE && !ft_strlen(cur->buf)) //no bytes read or the length of that file's buffer is 0.
-		return (0);
+		return (0); // Reading Completed
 	newlinePos = ft_strchr(cur->buf, '\n') - cur->buf; //use pointer math to calculate newline position.
 	//printf("newlinePos: %d\n", newlinePos); //testing REMOVE TODO
 	//mine ft_strncpy(*line, cur->buf, newlinePos); //# of characters before /n //copy the current line into **line that was passed in so the main can print the current line for current fd.
@@ -91,5 +91,4 @@ int		get_next_line(const int fd, char  **line)
 		(newlinePos < (int)ft_strlen(cur->buf)) ? cur->buf += (newlinePos + 1): ft_bzero(cur->buf, ft_strlen(cur->buf));
 
 	return (1); // Line was read
-	// return (0); // Reading Completed
 }
