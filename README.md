@@ -3,6 +3,8 @@ Function that returns a line ending with a newline, reading from a file descript
 
 125/100 - Max Score
 
+I chose to use linked lists to store the buffer for each file descriptor so that it supports multiple file descriptors. I chose to just reuse the linked list functions from my libft to save time.
+
 Bonuses:
 Use only one static variable.
 Read from multiple file descriptors without loosing your place.
